@@ -1,0 +1,13 @@
+<?php
+
+namespace {{ namespace }};
+
+use Closure;
+
+class {{ class }}
+{
+    public function handle(mixed $payload, Closure $next): mixed
+    {
+        return $next($payload);
+    }
+}

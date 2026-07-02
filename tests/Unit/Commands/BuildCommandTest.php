@@ -13,7 +13,6 @@ test('build stub method generates valid PHAR stub', function () {
     $command = new BuildCommand(app(Filesystem::class));
 
     $reflection = new ReflectionMethod($command, 'buildStub');
-    $reflection->setAccessible(true);
     $stub = $reflection->invoke($command, 'testapp');
 
     expect($stub)->toContain('#!/usr/bin/env php');

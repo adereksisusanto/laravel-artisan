@@ -43,8 +43,6 @@ test('does not inject filesystem for regular commands', function () {
     $app = Application::create();
     $command = new class extends Command
     {
-        protected static $defaultName = 'app:test-command';
-
         public function configure(): void
         {
             $this->setName('app:test-command');

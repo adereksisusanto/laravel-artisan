@@ -1,0 +1,13 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Notifications\Notification;
+
+class {{ class }} extends Notification
+{
+    public function via(object $notifiable): array
+    {
+        return ['mail'];
+    }
+}
