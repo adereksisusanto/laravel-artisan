@@ -71,7 +71,13 @@ class Application extends SymfonyApplication
 
     public function add(Command $command): ?Command
     {
-        return $this->addCommand($command);
+        if ($command instanceof Commands\BaseGeneratorCommand) {
+            $command->setFilesystem($this->container->make('files'));
+        }
+
+        return method_exists(parent::class, 'add')
+            ? parent::add($command)
+            : $this->addCommand($command);
     }
 
     public function addCommand(callable|Command $command): ?Command
