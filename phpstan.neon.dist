@@ -1,0 +1,16 @@
+includes:
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+    - vendor/phpstan/phpstan-phpunit/rules.neon
+
+parameters:
+    level: 5
+    paths:
+        - src/
+        - tests/
+    scanFiles:
+        - vendor/autoload.php
+    ignoreErrors:
+        - '#Call to an undefined method (PHPUnit\\Framework\\TestCase|Symfony\\Component\\Console\\Application)::[a-zA-Z]+\(\)#'
+        - '#Access to an undefined property PHPUnit\\Framework\\TestCase::\$#'
+        - '#Undefined variable: \$this#'
+    treatPhpDocTypesAsCertain: false
