@@ -45,21 +45,15 @@
             "Adereksisusanto\\Laravel\\Artisan\\": "src/"
         }
     },
+    "bin": [
+        "bin/artisan"
+    ],
     "autoload-dev": {
         "psr-4": {
             "Adereksisusanto\\Laravel\\Artisan\\Tests\\": "tests/"
         }
     },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Adereksisusanto\\Laravel\\Artisan\\Providers\\ArtisanServiceProvider"
-            ]
-        }
-    },
-    "bin": [
-        "bin/artisan"
-    ],
+
     "scripts": {
         "test": "pest",
         "test:coverage": "pest --coverage",

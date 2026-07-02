@@ -81,7 +81,13 @@ test('generates file from stub', function (string $commandClass, string $name, s
     $this->artisan($signature, ['name' => $name])
         ->assertSuccessful();
 
-    $expectedPath = $this->tempDir.'/app/'.$directory.'/'.$name.'.php';
+    if ($commandClass === MakeFactoryCommand::class) {
+        $expectedPath = $this->tempDir.'/database/factories/'.$name.'.php';
+    } elseif ($commandClass === MakeSeederCommand::class) {
+        $expectedPath = $this->tempDir.'/database/seeders/'.$name.'.php';
+    } else {
+        $expectedPath = $this->tempDir.'/app/'.$directory.'/'.$name.'.php';
+    }
     expect($expectedPath)->toBeFile();
 
     $content = $this->files->get($expectedPath);
@@ -354,10 +360,12 @@ test('model stub extends Model', function () {
 });
 
 test('factory stub extends Factory', function () {
+    $this->files->ensureDirectoryExists($this->tempDir.'/database/factories');
+
     $this->artisan('make:factory', ['name' => 'ProductFactory'])
         ->assertSuccessful();
 
-    $path = $this->tempDir.'/app/Database/Factories/ProductFactory.php';
+    $path = $this->tempDir.'/database/factories/ProductFactory.php';
     $content = $this->files->get($path);
 
     expect($content)->toContain('class ProductFactory extends Factory');
@@ -365,10 +373,12 @@ test('factory stub extends Factory', function () {
 });
 
 test('seeder stub extends Seeder', function () {
+    $this->files->ensureDirectoryExists($this->tempDir.'/database/seeders');
+
     $this->artisan('make:seeder', ['name' => 'DatabaseSeeder'])
         ->assertSuccessful();
 
-    $path = $this->tempDir.'/app/Database/Seeders/DatabaseSeeder.php';
+    $path = $this->tempDir.'/database/seeders/DatabaseSeeder.php';
     $content = $this->files->get($path);
 
     expect($content)->toContain('class DatabaseSeeder extends Seeder');

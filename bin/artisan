@@ -1,14 +1,13 @@
 #!/usr/bin/env php
 <?php
 
-declare(strict_types=1);
-
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__.'/../vendor/autoload.php';
 
 use Adereksisusanto\Laravel\Artisan\Application;
 use Adereksisusanto\Laravel\Artisan\Kernel;
 
-$app = Application::create(__DIR__ . '/..');
+$app = Application::create(__DIR__.'/..');
+
 $kernel = new Kernel($app);
 $status = $kernel->handle();
 $kernel->terminate($status);

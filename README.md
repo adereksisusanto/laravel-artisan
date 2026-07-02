@@ -41,6 +41,14 @@ Run it:
 php artisan list
 ```
 
+Namespace dan source path otomatis dibaca dari `composer.json` project — tidak perlu konfigurasi tambahan.
+
+Run it:
+
+```bash
+php artisan list
+```
+
 ## Available Commands
 
 | Command | Description |
@@ -79,15 +87,6 @@ php artisan list
 | `make:view <name>` | Generate a Blade view file |
 | `app:build <name>` | Build a PHAR archive |
 | `app:inspect` | Inspect application details |
-
-## Usage in Laravel
-
-The service provider auto-registers all `make:*` commands. Publish config with:
-
-```bash
-php artisan vendor:publish --tag=laravel-artisan-config
-php artisan vendor:publish --tag=laravel-artisan-stubs
-```
 
 ## Registering Custom Commands
 

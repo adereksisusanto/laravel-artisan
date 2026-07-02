@@ -10,6 +10,8 @@ abstract class BaseGeneratorCommand extends Command
 {
     protected Filesystem $files;
 
+    protected static ?array $composerConfig = null;
+
     public function setFilesystem(Filesystem $files): void
     {
         $this->files = $files;
@@ -30,25 +32,43 @@ abstract class BaseGeneratorCommand extends Command
 
     protected function getStubPath(): string
     {
-        $configPath = config('laravel-artisan.stubs_path');
+        return __DIR__.'/../Stubs/'.$this->getStubName();
+    }
 
-        if ($configPath && $this->files()->exists($configPath.'/'.$this->getStubName())) {
-            return $configPath.'/'.$this->getStubName();
+    protected function getComposerConfig(): array
+    {
+        if (static::$composerConfig === null) {
+            $path = base_path('composer.json');
+            static::$composerConfig = $this->files()->exists($path)
+                ? json_decode($this->files()->get($path), true) ?? []
+                : [];
         }
 
-        return __DIR__.'/../Stubs/'.$this->getStubName();
+        return static::$composerConfig;
     }
 
     protected function getNamespace(): string
     {
-        $root = config('laravel-artisan.namespace', 'App');
+        $composer = $this->getComposerConfig();
+        $psr4 = $composer['autoload']['psr-4'] ?? [];
+        $root = array_key_first($psr4);
+
+        if ($root) {
+            $root = rtrim($root, '\\');
+        }
+
+        $root = $root ?: 'App';
 
         return $root.'\\'.str_replace('/', '\\', $this->getDefaultDirectory());
     }
 
     protected function getPath(string $name): string
     {
-        return app_path($this->getDefaultDirectory().'/'.$name.'.php');
+        $composer = $this->getComposerConfig();
+        $psr4 = $composer['autoload']['psr-4'] ?? [];
+        $dir = $psr4 ? rtrim((string) array_values($psr4)[0], '/') : 'app';
+
+        return base_path($dir.'/'.$this->getDefaultDirectory().'/'.$name.'.php');
     }
 
     protected function buildClass(string $name): string

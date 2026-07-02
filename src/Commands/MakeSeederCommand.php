@@ -17,4 +17,9 @@ class MakeSeederCommand extends BaseGeneratorCommand
     {
         return 'Database/Seeders';
     }
+
+    protected function getPath(string $name): string
+    {
+        return database_path('seeders/'.$name.'.php');
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace Adereksisusanto\Laravel\Artisan;
 
+use Illuminate\Console\Command as IlluminateCommand;
 use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Application as SymfonyApplication;
@@ -11,7 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class Application extends SymfonyApplication
 {
-    protected Container $container;
+    protected LaravelApplication $container;
 
     protected array $serviceProviders = [];
 
@@ -19,11 +20,11 @@ class Application extends SymfonyApplication
 
     protected bool $booted = false;
 
-    public function __construct(?Container $container = null)
+    public function __construct(?LaravelApplication $container = null)
     {
         parent::__construct('Laravel Artisan', '1.0.0');
 
-        $this->container = $container ?: new Container;
+        $this->container = $container ?: new LaravelApplication;
         $this->container->instance(self::class, $this);
         $this->container->instance(SymfonyApplication::class, $this);
     }
@@ -31,11 +32,7 @@ class Application extends SymfonyApplication
     public function setBasePath(string $path): static
     {
         $this->basePath = $path;
-
-        $this->container->instance('path', $path.'/app');
-        $this->container->instance('path.base', $path);
-        $this->container->instance('path.config', $path.'/config');
-        $this->container->instance('path.storage', $path.'/storage');
+        $this->container->setBasePath($path);
 
         return $this;
     }
@@ -64,13 +61,17 @@ class Application extends SymfonyApplication
         $this->booted = true;
     }
 
-    public function getContainer(): Container
+    public function getContainer(): LaravelApplication
     {
         return $this->container;
     }
 
     public function add(Command $command): ?Command
     {
+        if ($command instanceof IlluminateCommand) {
+            $command->setLaravel($this->container);
+        }
+
         if ($command instanceof Commands\BaseGeneratorCommand) {
             $command->setFilesystem($this->container->make('files'));
         }
@@ -91,7 +92,7 @@ class Application extends SymfonyApplication
 
     public static function create(?string $basePath = null): self
     {
-        $container = new Container;
+        $container = new LaravelApplication;
 
         $container->singleton('files', function () {
             return new Filesystem;
@@ -102,6 +103,9 @@ class Application extends SymfonyApplication
         if ($basePath) {
             $app->setBasePath($basePath);
         }
+
+        $container->instance(LaravelApplication::class, $container);
+        Container::setInstance($container);
 
         return $app;
     }

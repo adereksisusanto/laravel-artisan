@@ -17,4 +17,9 @@ class MakeFactoryCommand extends BaseGeneratorCommand
     {
         return 'Database/Factories';
     }
+
+    protected function getPath(string $name): string
+    {
+        return database_path('factories/'.$name.'.php');
+    }
 }
