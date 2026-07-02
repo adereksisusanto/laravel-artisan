@@ -1,6 +1,6 @@
 # Laravel Artisan
 
-[![Tests](https://img.shields.io/badge/tests-86%20passing-brightgreen?style=flat-square)](https://github.com/adereksisusanto/laravel-artisan)
+[![Tests](https://img.shields.io/badge/tests-83%20passing-brightgreen?style=flat-square)](https://github.com/adereksisusanto/laravel-artisan)
 [![PHPStan](https://img.shields.io/badge/PHPStan-level%205-brightgreen?style=flat-square)](https://github.com/adereksisusanto/laravel-artisan)
 [![Packagist Version](https://img.shields.io/packagist/v/adereksisusanto/laravel-artisan?style=flat-square)](https://packagist.org/packages/adereksisusanto/laravel-artisan)
 [![Packagist Downloads](https://img.shields.io/packagist/dt/adereksisusanto/laravel-artisan?style=flat-square)](https://packagist.org/packages/adereksisusanto/laravel-artisan)
@@ -9,15 +9,23 @@
 
 Artisan commands to scaffold boilerplate code — designed for Laravel package developers.
 
+Artisan commands to scaffold boilerplate code — designed for Laravel package developers.
+
+> **Note:** This package runs **standalone** — it does not integrate with a Laravel application. Perfect for package development where you need artisan scaffolding without booting a full Laravel app.
+
+**Languages:** [Indonesia](README.id.md) | English
+
 ## Installation
 
 ```bash
 composer require adereksisusanto/laravel-artisan --dev
 ```
 
-## Quick Start (Standalone CLI)
+After installation, the `bin/artisan` entry point is available in your project's `vendor/bin` directory.
 
-Create `artisan` (or `myapp`) in your project root:
+## Quick Start
+
+Create `artisan` in your project root (or use `vendor/bin/artisan` directly):
 
 ```php
 #!/usr/bin/env php
@@ -35,19 +43,13 @@ $status = $kernel->handle();
 $kernel->terminate($status);
 ```
 
-Run it:
+Then run:
 
 ```bash
 php artisan list
 ```
 
-Namespace dan source path otomatis dibaca dari `composer.json` project — tidak perlu konfigurasi tambahan.
-
-Run it:
-
-```bash
-php artisan list
-```
+Namespace and source path are automatically read from your project's `composer.json` PSR-4 autoload — no additional configuration needed.
 
 ## Available Commands
 

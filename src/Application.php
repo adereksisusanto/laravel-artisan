@@ -2,6 +2,7 @@
 
 namespace Adereksisusanto\Laravel\Artisan;
 
+use Composer\InstalledVersions;
 use Illuminate\Console\Command as IlluminateCommand;
 use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;
@@ -22,11 +23,24 @@ class Application extends SymfonyApplication
 
     public function __construct(?LaravelApplication $container = null)
     {
-        parent::__construct('Laravel Artisan', '1.0.0');
+        parent::__construct(
+            'Laravel Artisan',
+            $this->getInstalledVersion(),
+        );
 
         $this->container = $container ?: new LaravelApplication;
         $this->container->instance(self::class, $this);
         $this->container->instance(SymfonyApplication::class, $this);
+    }
+
+    protected function getInstalledVersion(): string
+    {
+        try {
+            return InstalledVersions::getPrettyVersion('adereksisusanto/laravel-artisan')
+                ?? '1.0.0';
+        } catch (\OutOfBoundsException) {
+            return '1.0.0';
+        }
     }
 
     public function setBasePath(string $path): static
