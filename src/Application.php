@@ -75,18 +75,11 @@ class Application extends SymfonyApplication
             $command->setFilesystem($this->container->make('files'));
         }
 
-        return method_exists(parent::class, 'add')
-            ? parent::add($command)
-            : $this->addCommand($command);
-    }
-
-    public function addCommand(callable|Command $command): ?Command
-    {
-        if ($command instanceof Commands\BaseGeneratorCommand) {
-            $command->setFilesystem($this->container->make('files'));
+        try {
+            return (new \ReflectionClass(parent::class))->getMethod('add')->invoke($this, $command);
+        } catch (\ReflectionException) {
+            return (new \ReflectionClass(parent::class))->getMethod('addCommand')->invoke($this, $command);
         }
-
-        return parent::addCommand($command);
     }
 
     protected function doRunCommand(Command $command, InputInterface $input, OutputInterface $output): int

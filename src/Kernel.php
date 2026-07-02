@@ -74,6 +74,9 @@ class Kernel
     {
         foreach ($this->commands as $command) {
             $instance = $this->app->getContainer()->make($command);
+            if ($instance instanceof Commands\BaseGeneratorCommand) {
+                $instance->setFilesystem($this->app->getContainer()->make('files'));
+            }
             $this->app->add($instance);
         }
     }
