@@ -4,7 +4,7 @@
 [![PHPStan](https://img.shields.io/badge/PHPStan-level%205-brightgreen?style=flat-square)](https://github.com/adereksisusanto/laravel-artisan)
 [![Packagist Version](https://img.shields.io/packagist/v/adereksisusanto/laravel-artisan?style=flat-square)](https://packagist.org/packages/adereksisusanto/laravel-artisan)
 [![Packagist Downloads](https://img.shields.io/packagist/dt/adereksisusanto/laravel-artisan?style=flat-square)](https://packagist.org/packages/adereksisusanto/laravel-artisan)
-[![PHP Version](https://img.shields.io/badge/php-%5E8.3-777bb3?style=flat-square)](https://github.com/adereksisusanto/laravel-artisan)
+[![PHP Version](https://img.shields.io/badge/php-%5E8.3%7C%5E8.5-777bb3?style=flat-square)](https://github.com/adereksisusanto/laravel-artisan)
 [![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](https://github.com/adereksisusanto/laravel-artisan)
 
 Artisan commands to scaffold boilerplate code — designed for Laravel package developers.
