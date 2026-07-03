@@ -1,8 +1,8 @@
-name: "Update Changelog"
+name: Update Changelog
 
 on:
   release:
-    types: [released]
+    types: [published]
 
 permissions:
   contents: write
@@ -10,23 +10,36 @@ permissions:
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v7
+      - uses: actions/checkout@v7
         with:
-          ref: main
+          ref: ${{ github.event.release.target_commitish }}
 
-      - name: Update Changelog
-        uses: stefanzweifel/changelog-updater-action@v1
-        with:
-          latest-version: ${{ github.event.release.name }}
-          release-notes: ${{ github.event.release.body }}
+      - name: Update CHANGELOG.md
+        run: |
+          TAG="${{ github.event.release.tag_name }}"
+          DATE="${{ github.event.release.published_at }}"
+          DATE="${DATE%%T*}"
+          BODY="${{ github.event.release.body }}"
 
-      - name: Commit updated CHANGELOG
-        uses: stefanzweifel/git-auto-commit-action@v7
+          ENTRY="## ${TAG} - ${DATE}\n\n${BODY}\n\n"
+          echo -e "${ENTRY}" > /tmp/new_entry.md
+
+          if [ -f CHANGELOG.md ]; then
+            HEADER=$(head -5 CHANGELOG.md)
+            TAIL=$(tail -n +6 CHANGELOG.md)
+            echo "${HEADER}" > CHANGELOG.md
+            echo "" >> CHANGELOG.md
+            cat /tmp/new_entry.md >> CHANGELOG.md
+            echo "${TAIL}" >> CHANGELOG.md
+          else
+            echo "# Changelog" > CHANGELOG.md
+            echo "" >> CHANGELOG.md
+            cat /tmp/new_entry.md >> CHANGELOG.md
+          fi
+
+      - uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          branch: main
-          commit_message: Update CHANGELOG
+          commit_message: "chore: update CHANGELOG.md for ${{ github.event.release.tag_name }}"
           file_pattern: CHANGELOG.md
