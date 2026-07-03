@@ -4,7 +4,7 @@ namespace Adereksisusanto\Laravel\Artisan\Commands;
 
 class MakeServiceCommand extends BaseGeneratorCommand
 {
-    protected $signature = 'make:service {name}';
+    protected $signature = 'make:service {name} {--force : Create the class even if the service already exists}';
 
     protected $description = 'Generate a new service class';
 
@@ -16,5 +16,10 @@ class MakeServiceCommand extends BaseGeneratorCommand
     protected function getDefaultDirectory(): string
     {
         return 'Services';
+    }
+
+    protected function getGeneratorKey(): ?string
+    {
+        return 'service';
     }
 }

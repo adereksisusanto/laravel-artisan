@@ -28,6 +28,7 @@ class Kernel
             Commands\MakeCastCommand::class,
             Commands\MakeChannelCommand::class,
             Commands\MakeComponentCommand::class,
+            Commands\MakeControllerCommand::class,
             Commands\MakeDTOCommand::class,
             Commands\MakeEnumCommand::class,
             Commands\MakeEventCommand::class,

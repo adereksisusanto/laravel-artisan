@@ -9,8 +9,6 @@
 
 Artisan commands to scaffold boilerplate code — designed for Laravel package developers.
 
-Artisan commands to scaffold boilerplate code — designed for Laravel package developers.
-
 > **Note:** This package runs **standalone** — it does not integrate with a Laravel application. Perfect for package development where you need artisan scaffolding without booting a full Laravel app.
 
 **Languages:** [Indonesia](README.id.md) | English
@@ -51,6 +49,55 @@ php artisan list
 
 Namespace and source path are automatically read from your project's `composer.json` PSR-4 autoload — no additional configuration needed.
 
+## Custom Paths
+
+You can override the default output directory for any generator via `composer.json`:
+
+```json
+{
+    "extra": {
+        "laravel-artisan": {
+            "paths": {
+                "model": "Models",
+                "enum": "Enums",
+                "interface": "Contracts",
+                "factory": "Database/Factories",
+                "migration": "Database/Migrations",
+                "seeder": "Database/Seeders",
+                "request": "Http/Requests",
+                "middleware": "Http/Middleware",
+                "resource": "Http/Resources",
+                "component": "View/Components",
+                "controller": "Http/Controllers",
+                "action": "Actions",
+                "service": "Services",
+                "repository": "Repositories",
+                "dto": "DTOs",
+                "trait": "Traits",
+                "job": "Jobs",
+                "event": "Events",
+                "listener": "Listeners",
+                "mail": "Mail",
+                "notification": "Notifications",
+                "rule": "Rules",
+                "scope": "Scopes",
+                "observer": "Observers",
+                "pipeline": "Pipelines",
+                "policy": "Policies",
+                "provider": "Providers",
+                "facade": "Facades",
+                "exception": "Exceptions",
+                "cast": "Casts",
+                "command": "Commands",
+                "channel": "Broadcasting"
+            }
+        }
+    }
+}
+```
+
+Only set the keys you want to customize; others will use the default directory.
+
 ## Available Commands
 
 | Command | Description |
@@ -60,6 +107,7 @@ Namespace and source path are automatically read from your project's `composer.j
 | `make:channel <name>` | Generate a broadcast channel class |
 | `make:command <name>` | Generate a new artisan command |
 | `make:component <name>` | Generate a view component class |
+| `make:controller <name>` | Generate a controller class |
 | `make:dto <name>` | Generate a DTO class |
 | `make:enum <name>` | Generate an enum class |
 | `make:event <name>` | Generate an event class |
@@ -89,6 +137,46 @@ Namespace and source path are automatically read from your project's `composer.j
 | `make:view <name>` | Generate a Blade view file |
 | `app:build <name>` | Build a PHAR archive |
 | `app:inspect` | Inspect application details |
+
+### Options
+
+Every `make:*` command supports `--force` to overwrite existing files.
+
+| Command | Options |
+|---------|---------|
+| `make:action` | `--force` |
+| `make:cast` | `--force` |
+| `make:channel` | `--force` |
+| `make:command` | `--command=` (terminal command name), `--force` |
+| `make:component` | `--force` |
+| `make:controller` | `-i, --invokable`, `-m, --model=`, `-r, --resource`, `--api`, `-R, --requests`, `--force` |
+| `make:dto` | `--force` |
+| `make:enum` | `--force` |
+| `make:event` | `--force` |
+| `make:exception` | `--force` |
+| `make:facade` | `--force` |
+| `make:factory` | `-m, --model=`, `--force` |
+| `make:interface` | `--force` |
+| `make:job` | `--sync` (synchronous), `--force` |
+| `make:listener` | `-e, --event=`, `--queued`, `--force` |
+| `make:mail` | `--markdown=`, `--force` |
+| `make:middleware` | `--force` |
+| `make:migration` | `--create=` (table to create), `--table=` (table to modify), `--path=`, `--force` |
+| `make:model` | `-a, --all`, `-c, --controller`, `-f, --factory`, `-m, --migration`, `--policy`, `-s, --seed`, `-r, --resource`, `--api`, `-R, --requests`, `--force` |
+| `make:notification` | `--markdown=`, `--force` |
+| `make:observer` | `-m, --model=`, `--force` |
+| `make:pipeline` | `--force` |
+| `make:policy` | `-m, --model=`, `--guard=`, `--force` |
+| `make:provider` | `--force` |
+| `make:repository` | `--force` |
+| `make:request` | `--force` |
+| `make:resource` | `-m, --model=`, `-c, --collection`, `--force` |
+| `make:rule` | `--implicit`, `--force` |
+| `make:scope` | `--force` |
+| `make:seeder` | `--force` |
+| `make:service` | `--force` |
+| `make:trait` | `--force` |
+| `make:view` | `--force` |
 
 ## Registering Custom Commands
 

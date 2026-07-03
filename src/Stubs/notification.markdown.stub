@@ -1,0 +1,20 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Notifications\Notification;
+
+class {{ class }} extends Notification
+{
+    public function via(object $notifiable): array
+    {
+        return ['mail'];
+    }
+
+    public function toMail(object $notifiable): MailMessage
+    {
+        return (new MailMessage)
+            ->subject('{{ classSnake }}')
+            ->markdown('{{ markdownView }}');
+    }
+}

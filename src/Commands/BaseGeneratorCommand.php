@@ -10,7 +10,7 @@ abstract class BaseGeneratorCommand extends Command
 {
     protected Filesystem $files;
 
-    protected static ?array $composerConfig = null;
+    private ?array $composerConfig = null;
 
     public function setFilesystem(Filesystem $files): void
     {
@@ -30,6 +30,23 @@ abstract class BaseGeneratorCommand extends Command
 
     abstract protected function getDefaultDirectory(): string;
 
+    protected function getGeneratorKey(): ?string
+    {
+        return null;
+    }
+
+    protected function getCustomDirectory(): ?string
+    {
+        $key = $this->getGeneratorKey();
+        if (! $key) {
+            return null;
+        }
+
+        $config = $this->getComposerConfig();
+
+        return $config['extra']['laravel-artisan']['paths'][$key] ?? null;
+    }
+
     protected function getStubPath(): string
     {
         return __DIR__.'/../Stubs/'.$this->getStubName();
@@ -37,14 +54,14 @@ abstract class BaseGeneratorCommand extends Command
 
     protected function getComposerConfig(): array
     {
-        if (static::$composerConfig === null) {
+        if ($this->composerConfig === null) {
             $path = base_path('composer.json');
-            static::$composerConfig = $this->files()->exists($path)
+            $this->composerConfig = $this->files()->exists($path)
                 ? json_decode($this->files()->get($path), true) ?? []
                 : [];
         }
 
-        return static::$composerConfig;
+        return $this->composerConfig;
     }
 
     protected function getNamespace(): string
@@ -59,7 +76,9 @@ abstract class BaseGeneratorCommand extends Command
 
         $root = $root ?: 'App';
 
-        return $root.'\\'.str_replace('/', '\\', $this->getDefaultDirectory());
+        $directory = $this->getCustomDirectory() ?? $this->getDefaultDirectory();
+
+        return $root.'\\'.str_replace('/', '\\', $directory);
     }
 
     protected function getPath(string $name): string
@@ -68,14 +87,16 @@ abstract class BaseGeneratorCommand extends Command
         $psr4 = $composer['autoload']['psr-4'] ?? [];
         $dir = $psr4 ? rtrim((string) array_values($psr4)[0], '/') : 'app';
 
-        return base_path($dir.'/'.$this->getDefaultDirectory().'/'.$name.'.php');
+        $directory = $this->getCustomDirectory() ?? $this->getDefaultDirectory();
+
+        return base_path($dir.'/'.$directory.'/'.$name.'.php');
     }
 
     protected function buildClass(string $name): string
     {
         $stub = $this->files()->get($this->getStubPath());
 
-        $replace = [
+        $replace = array_merge([
             '{{ namespace }}' => $this->getNamespace(),
             '{{ class }}' => $name,
             '{{ classLower }}' => lcfirst($name),
@@ -83,16 +104,21 @@ abstract class BaseGeneratorCommand extends Command
             '{{ classKebab }}' => Str::kebab($name),
             '{{ classPlural }}' => Str::plural($name),
             '{{ classPluralLower }}' => lcfirst(Str::plural($name)),
-        ];
+        ], $this->getReplacements($name));
 
         return str_replace(array_keys($replace), array_values($replace), $stub);
     }
 
-    protected function generate(string $name): bool
+    protected function getReplacements(string $name): array
+    {
+        return [];
+    }
+
+    protected function generate(string $name, bool $force = false): bool
     {
         $path = $this->getPath($name);
 
-        if ($this->files()->exists($path)) {
+        if (! $force && $this->files()->exists($path)) {
             $this->error("{$name} already exists at {$path}!");
 
             return false;
@@ -110,8 +136,9 @@ abstract class BaseGeneratorCommand extends Command
     public function handle(): int
     {
         $name = $this->argument('name');
+        $force = $this->option('force');
 
-        if ($this->generate($name)) {
+        if ($this->generate($name, $force)) {
             return self::SUCCESS;
         }
 

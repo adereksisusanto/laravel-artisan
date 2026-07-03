@@ -4,7 +4,7 @@ namespace Adereksisusanto\Laravel\Artisan\Commands;
 
 class MakeCastCommand extends BaseGeneratorCommand
 {
-    protected $signature = 'make:cast {name}';
+    protected $signature = 'make:cast {name} {--force : Create the class even if the cast already exists}';
 
     protected $description = 'Generate a new custom Eloquent cast class';
 
@@ -16,5 +16,10 @@ class MakeCastCommand extends BaseGeneratorCommand
     protected function getDefaultDirectory(): string
     {
         return 'Casts';
+    }
+
+    protected function getGeneratorKey(): ?string
+    {
+        return 'cast';
     }
 }

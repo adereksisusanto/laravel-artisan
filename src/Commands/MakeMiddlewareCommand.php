@@ -4,7 +4,7 @@ namespace Adereksisusanto\Laravel\Artisan\Commands;
 
 class MakeMiddlewareCommand extends BaseGeneratorCommand
 {
-    protected $signature = 'make:middleware {name}';
+    protected $signature = 'make:middleware {name} {--force : Create the class even if the middleware already exists}';
 
     protected $description = 'Generate a new middleware class';
 
@@ -16,5 +16,10 @@ class MakeMiddlewareCommand extends BaseGeneratorCommand
     protected function getDefaultDirectory(): string
     {
         return 'Http/Middleware';
+    }
+
+    protected function getGeneratorKey(): ?string
+    {
+        return 'middleware';
     }
 }

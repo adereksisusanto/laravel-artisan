@@ -4,7 +4,7 @@ namespace Adereksisusanto\Laravel\Artisan\Commands;
 
 class MakeRepositoryCommand extends BaseGeneratorCommand
 {
-    protected $signature = 'make:repository {name}';
+    protected $signature = 'make:repository {name} {--force : Create the class even if the repository already exists}';
 
     protected $description = 'Generate a new repository class';
 
@@ -16,5 +16,10 @@ class MakeRepositoryCommand extends BaseGeneratorCommand
     protected function getDefaultDirectory(): string
     {
         return 'Repositories';
+    }
+
+    protected function getGeneratorKey(): ?string
+    {
+        return 'repository';
     }
 }

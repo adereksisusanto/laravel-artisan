@@ -49,6 +49,55 @@ php artisan list
 
 Namespace dan path sumber dibaca otomatis dari PSR-4 `composer.json` proyek Anda — tanpa perlu konfigurasi tambahan.
 
+## Path Kustom
+
+Anda dapat menimpa direktori output default untuk setiap generator melalui `composer.json`:
+
+```json
+{
+    "extra": {
+        "laravel-artisan": {
+            "paths": {
+                "model": "Models",
+                "enum": "Enums",
+                "interface": "Contracts",
+                "factory": "Database/Factories",
+                "migration": "Database/Migrations",
+                "seeder": "Database/Seeders",
+                "request": "Http/Requests",
+                "middleware": "Http/Middleware",
+                "resource": "Http/Resources",
+                "component": "View/Components",
+                "controller": "Http/Controllers",
+                "action": "Actions",
+                "service": "Services",
+                "repository": "Repositories",
+                "dto": "DTOs",
+                "trait": "Traits",
+                "job": "Jobs",
+                "event": "Events",
+                "listener": "Listeners",
+                "mail": "Mail",
+                "notification": "Notifications",
+                "rule": "Rules",
+                "scope": "Scopes",
+                "observer": "Observers",
+                "pipeline": "Pipelines",
+                "policy": "Policies",
+                "provider": "Providers",
+                "facade": "Facades",
+                "exception": "Exceptions",
+                "cast": "Casts",
+                "command": "Commands",
+                "channel": "Broadcasting"
+            }
+        }
+    }
+}
+```
+
+Hanya atur key yang ingin dikustomisasi; lainnya akan menggunakan direktori default.
+
 ## Perintah yang Tersedia
 
 | Perintah | Deskripsi |
@@ -58,6 +107,7 @@ Namespace dan path sumber dibaca otomatis dari PSR-4 `composer.json` proyek Anda
 | `make:channel <name>` | Membuat kelas broadcast channel |
 | `make:command <name>` | Membuat perintah artisan baru |
 | `make:component <name>` | Membuat kelas view component |
+| `make:controller <name>` | Membuat kelas controller |
 | `make:dto <name>` | Membuat kelas DTO |
 | `make:enum <name>` | Membuat kelas enum |
 | `make:event <name>` | Membuat kelas event |
@@ -87,6 +137,46 @@ Namespace dan path sumber dibaca otomatis dari PSR-4 `composer.json` proyek Anda
 | `make:view <name>` | Membuat file Blade view |
 | `app:build <name>` | Membuat arsip PHAR |
 | `app:inspect` | Melihat detail aplikasi |
+
+### Opsi
+
+Semua perintah `make:*` mendukung `--force` untuk menimpa file yang sudah ada.
+
+| Perintah | Opsi |
+|----------|------|
+| `make:action` | `--force` |
+| `make:cast` | `--force` |
+| `make:channel` | `--force` |
+| `make:command` | `--command=` (nama perintah terminal), `--force` |
+| `make:component` | `--force` |
+| `make:controller` | `-i, --invokable`, `-m, --model=`, `-r, --resource`, `--api`, `-R, --requests`, `--force` |
+| `make:dto` | `--force` |
+| `make:enum` | `--force` |
+| `make:event` | `--force` |
+| `make:exception` | `--force` |
+| `make:facade` | `--force` |
+| `make:factory` | `-m, --model=`, `--force` |
+| `make:interface` | `--force` |
+| `make:job` | `--sync` (synchronous), `--force` |
+| `make:listener` | `-e, --event=`, `--queued`, `--force` |
+| `make:mail` | `--markdown=`, `--force` |
+| `make:middleware` | `--force` |
+| `make:migration` | `--create=` (tabel dibuat), `--table=` (tabel dimodifikasi), `--path=`, `--force` |
+| `make:model` | `-a, --all`, `-c, --controller`, `-f, --factory`, `-m, --migration`, `--policy`, `-s, --seed`, `-r, --resource`, `--api`, `-R, --requests`, `--force` |
+| `make:notification` | `--markdown=`, `--force` |
+| `make:observer` | `-m, --model=`, `--force` |
+| `make:pipeline` | `--force` |
+| `make:policy` | `-m, --model=`, `--guard=`, `--force` |
+| `make:provider` | `--force` |
+| `make:repository` | `--force` |
+| `make:request` | `--force` |
+| `make:resource` | `-m, --model=`, `-c, --collection`, `--force` |
+| `make:rule` | `--implicit`, `--force` |
+| `make:scope` | `--force` |
+| `make:seeder` | `--force` |
+| `make:service` | `--force` |
+| `make:trait` | `--force` |
+| `make:view` | `--force` |
 
 ## Mendaftarkan Perintah Kustom
 

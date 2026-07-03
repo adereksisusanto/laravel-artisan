@@ -9,6 +9,7 @@ use Adereksisusanto\Laravel\Artisan\Commands\MakeArtisanCommand;
 use Adereksisusanto\Laravel\Artisan\Commands\MakeCastCommand;
 use Adereksisusanto\Laravel\Artisan\Commands\MakeChannelCommand;
 use Adereksisusanto\Laravel\Artisan\Commands\MakeComponentCommand;
+use Adereksisusanto\Laravel\Artisan\Commands\MakeControllerCommand;
 use Adereksisusanto\Laravel\Artisan\Commands\MakeDTOCommand;
 use Adereksisusanto\Laravel\Artisan\Commands\MakeEnumCommand;
 use Adereksisusanto\Laravel\Artisan\Commands\MakeEventCommand;
@@ -68,6 +69,7 @@ class TestServiceProvider extends ServiceProvider
                 MakeCastCommand::class,
                 MakeChannelCommand::class,
                 MakeComponentCommand::class,
+                MakeControllerCommand::class,
                 MakeDTOCommand::class,
                 MakeEnumCommand::class,
                 MakeEventCommand::class,
