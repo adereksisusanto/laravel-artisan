@@ -430,3 +430,56 @@ test('make:routes generates routes file', function () {
     $content = $this->files->get($path);
     expect($content)->toContain('web Routes');
 });
+
+// ─── custom stubs ────────────────────────────────────────────
+
+test('stubs:publish publishes stubs to project', function () {
+    $this->artisan('stubs:publish')->assertSuccessful();
+
+    $targetDir = $this->tempDir.'/stubs/vendor/laravel-artisan';
+    expect($targetDir.'/action.stub')->toBeFile();
+    expect($targetDir.'/model.stub')->toBeFile();
+    expect($targetDir.'/controller.stub')->toBeFile();
+});
+
+test('stubs:publish --force overwrites existing stubs', function () {
+    $this->files->makeDirectory($this->tempDir.'/stubs/vendor/laravel-artisan', 0755, true);
+    $this->files->put($this->tempDir.'/stubs/vendor/laravel-artisan/service.stub', 'custom');
+
+    $this->artisan('stubs:publish', ['--force' => true])->assertSuccessful();
+
+    $content = $this->files->get($this->tempDir.'/stubs/vendor/laravel-artisan/service.stub');
+    expect($content)->not->toBe('custom');
+});
+
+test('custom stub overrides built-in stub', function () {
+    $this->files->makeDirectory($this->tempDir.'/stubs/vendor/laravel-artisan', 0755, true);
+    $this->files->put(
+        $this->tempDir.'/stubs/vendor/laravel-artisan/service.stub',
+        "<?php\n\nclass {{ class }}Custom {}\n",
+    );
+
+    $this->artisan('make:service', ['name' => 'PaymentService'])->assertSuccessful();
+
+    $path = $this->tempDir.'/app/Services/PaymentService.php';
+    $content = $this->files->get($path);
+
+    expect($content)->toContain('class PaymentServiceCustom');
+    expect($content)->not->toContain('class PaymentService extends Service');
+});
+
+test('custom migration stub overrides built-in stub', function () {
+    $this->files->makeDirectory($this->tempDir.'/stubs/vendor/laravel-artisan', 0755, true);
+    $this->files->put(
+        $this->tempDir.'/stubs/vendor/laravel-artisan/migration.stub',
+        "<?php\n\n// Custom migration for {{ table }}\n",
+    );
+    $this->app->useDatabasePath($this->tempDir.'/database');
+
+    $this->artisan('make:migration', ['name' => 'create_users_table'])->assertSuccessful();
+
+    $files = $this->files->files($this->tempDir.'/database/migrations');
+    $content = $this->files->get($files[0]->getPathname());
+
+    expect($content)->toContain('// Custom migration for users');
+});

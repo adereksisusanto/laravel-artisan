@@ -49,6 +49,11 @@ abstract class BaseGeneratorCommand extends Command
 
     protected function getStubPath(): string
     {
+        $custom = base_path('stubs/vendor/laravel-artisan/'.$this->getStubName());
+        if ($this->files()->exists($custom)) {
+            return $custom;
+        }
+
         return __DIR__.'/../Stubs/'.$this->getStubName();
     }
 

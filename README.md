@@ -187,6 +187,22 @@ Every `make:*` command supports `--force` to overwrite existing files.
 | `make:trait` | `--force` |
 | `make:view` | `--force` |
 
+## Custom Stubs
+
+You can customize the generated code by publishing and modifying stubs:
+
+```bash
+php artisan stubs:publish
+```
+
+This copies all stub files to `stubs/vendor/laravel-artisan/`. Edit any stub and subsequent `make:*` commands will use your version instead of the built-in one.
+
+Use `--force` to overwrite previously published stubs:
+
+```bash
+php artisan stubs:publish --force
+```
+
 ## Registering Custom Commands
 
 ```php

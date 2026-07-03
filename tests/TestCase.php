@@ -40,6 +40,7 @@ use Adereksisusanto\Laravel\Artisan\Commands\MakeSeederCommand;
 use Adereksisusanto\Laravel\Artisan\Commands\MakeServiceCommand;
 use Adereksisusanto\Laravel\Artisan\Commands\MakeTraitCommand;
 use Adereksisusanto\Laravel\Artisan\Commands\MakeViewCommand;
+use Adereksisusanto\Laravel\Artisan\Commands\StubsPublishCommand;
 use Illuminate\Support\ServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
@@ -105,6 +106,7 @@ class TestServiceProvider extends ServiceProvider
                 MakeViewCommand::class,
                 BuildCommand::class,
                 InspectCommand::class,
+                StubsPublishCommand::class,
             ]);
         }
     }

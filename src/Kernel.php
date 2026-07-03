@@ -28,6 +28,7 @@ class Kernel
             Commands\MakeCastCommand::class,
             Commands\MakeChannelCommand::class,
             Commands\MakeComponentCommand::class,
+            Commands\MakeConfigCommand::class,
             Commands\MakeControllerCommand::class,
             Commands\MakeDTOCommand::class,
             Commands\MakeEnumCommand::class,
@@ -36,6 +37,7 @@ class Kernel
             Commands\MakeFacadeCommand::class,
             Commands\MakeInterfaceCommand::class,
             Commands\MakeJobCommand::class,
+            Commands\MakeLanguageCommand::class,
             Commands\MakeListenerCommand::class,
             Commands\MakeMailCommand::class,
             Commands\MakeMiddlewareCommand::class,
@@ -50,6 +52,7 @@ class Kernel
             Commands\MakeRepositoryCommand::class,
             Commands\MakeRequestCommand::class,
             Commands\MakeResourceCommand::class,
+            Commands\MakeRoutesCommand::class,
             Commands\MakeRuleCommand::class,
             Commands\MakeScopeCommand::class,
             Commands\MakeSeederCommand::class,
@@ -58,6 +61,7 @@ class Kernel
             Commands\MakeViewCommand::class,
             Commands\BuildCommand::class,
             Commands\InspectCommand::class,
+            Commands\StubsPublishCommand::class,
         ];
     }
 

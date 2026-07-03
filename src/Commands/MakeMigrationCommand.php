@@ -49,7 +49,10 @@ class MakeMigrationCommand extends Command
             $filename = date('Y_m_d_His')."_create_{$create}_table.php";
         }
 
-        $stub = $files->get(__DIR__.'/../Stubs/migration.stub');
+        $stubPath = $files->exists(base_path('stubs/vendor/laravel-artisan/migration.stub'))
+            ? base_path('stubs/vendor/laravel-artisan/migration.stub')
+            : __DIR__.'/../Stubs/migration.stub';
+        $stub = $files->get($stubPath);
         $stub = str_replace('{{ table }}', $table, $stub);
 
         $custom = $this->getCustomDirectory();

@@ -187,6 +187,22 @@ Semua perintah `make:*` mendukung `--force` untuk menimpa file yang sudah ada.
 | `make:trait` | `--force` |
 | `make:view` | `--force` |
 
+## Stub Kustom
+
+Anda dapat menyesuaikan kode yang dihasilkan dengan menerbitkan dan memodifikasi stub:
+
+```bash
+php artisan stubs:publish
+```
+
+Ini menyalin semua file stub ke `stubs/vendor/laravel-artisan/`. Edit stub mana pun dan perintah `make:*` selanjutnya akan menggunakan versi Anda.
+
+Gunakan `--force` untuk menimpa stub yang sudah diterbitkan sebelumnya:
+
+```bash
+php artisan stubs:publish --force
+```
+
 ## Mendaftarkan Perintah Kustom
 
 ```php
