@@ -89,7 +89,10 @@ Anda dapat menimpa direktori output default untuk setiap generator melalui `comp
                 "exception": "Exceptions",
                 "cast": "Casts",
                 "command": "Commands",
-                "channel": "Broadcasting"
+                "channel": "Broadcasting",
+                "config": "config",
+                "lang": "lang",
+                "routes": "routes"
             }
         }
     }
@@ -107,6 +110,7 @@ Hanya atur key yang ingin dikustomisasi; lainnya akan menggunakan direktori defa
 | `make:channel <name>` | Membuat kelas broadcast channel |
 | `make:command <name>` | Membuat perintah artisan baru |
 | `make:component <name>` | Membuat kelas view component |
+| `make:config <name>` | Membuat file konfigurasi |
 | `make:controller <name>` | Membuat kelas controller |
 | `make:dto <name>` | Membuat kelas DTO |
 | `make:enum <name>` | Membuat kelas enum |
@@ -116,6 +120,7 @@ Hanya atur key yang ingin dikustomisasi; lainnya akan menggunakan direktori defa
 | `make:interface <name>` | Membuat interface |
 | `make:factory <name>` | Membuat kelas model factory |
 | `make:job <name>` | Membuat kelas queued job |
+| `make:lang <name>` | Membuat file bahasa |
 | `make:listener <name>` | Membuat kelas event listener |
 | `make:mail <name>` | Membuat kelas mailable |
 | `make:middleware <name>` | Membuat kelas middleware |
@@ -129,6 +134,7 @@ Hanya atur key yang ingin dikustomisasi; lainnya akan menggunakan direktori defa
 | `make:repository <name>` | Membuat kelas repository |
 | `make:request <name>` | Membuat kelas form request |
 | `make:resource <name>` | Membuat kelas API resource |
+| `make:routes <name>` | Membuat file routes |
 | `make:rule <name>` | Membuat kelas validation rule |
 | `make:scope <name>` | Membuat kelas query scope |
 | `make:seeder <name>` | Membuat kelas seeder |
@@ -149,6 +155,7 @@ Semua perintah `make:*` mendukung `--force` untuk menimpa file yang sudah ada.
 | `make:channel` | `--force` |
 | `make:command` | `--command=` (nama perintah terminal), `--force` |
 | `make:component` | `--force` |
+| `make:config` | `--force` |
 | `make:controller` | `-i, --invokable`, `-m, --model=`, `-r, --resource`, `--api`, `-R, --requests`, `--force` |
 | `make:dto` | `--force` |
 | `make:enum` | `--force` |
@@ -158,6 +165,7 @@ Semua perintah `make:*` mendukung `--force` untuk menimpa file yang sudah ada.
 | `make:factory` | `-m, --model=`, `--force` |
 | `make:interface` | `--force` |
 | `make:job` | `--sync` (synchronous), `--force` |
+| `make:lang` | `--locale=` (default: en), `--force` |
 | `make:listener` | `-e, --event=`, `--queued`, `--force` |
 | `make:mail` | `--markdown=`, `--force` |
 | `make:middleware` | `--force` |
@@ -171,6 +179,7 @@ Semua perintah `make:*` mendukung `--force` untuk menimpa file yang sudah ada.
 | `make:repository` | `--force` |
 | `make:request` | `--force` |
 | `make:resource` | `-m, --model=`, `-c, --collection`, `--force` |
+| `make:routes` | `--force` |
 | `make:rule` | `--implicit`, `--force` |
 | `make:scope` | `--force` |
 | `make:seeder` | `--force` |

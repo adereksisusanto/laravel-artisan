@@ -384,3 +384,49 @@ test('make:controller basic stub', function () {
     expect($content)->toContain('//');
     expect($content)->not->toContain('public function index()');
 });
+
+// ─── make:lang ───────────────────────────────────────────────
+
+test('make:lang generates language file', function () {
+    $this->artisan('make:lang', ['name' => 'messages'])->assertSuccessful();
+
+    $path = $this->tempDir.'/lang/en/messages.php';
+    expect($path)->toBeFile();
+
+    $content = $this->files->get($path);
+    expect($content)->toContain('messages Language Lines');
+});
+
+test('make:lang --locale generates file in custom locale', function () {
+    $this->artisan('make:lang', ['name' => 'auth', '--locale' => 'id'])->assertSuccessful();
+
+    $path = $this->tempDir.'/lang/id/auth.php';
+    expect($path)->toBeFile();
+
+    $content = $this->files->get($path);
+    expect($content)->toContain('auth Language Lines');
+});
+
+// ─── make:config ──────────────────────────────────────────────
+
+test('make:config generates config file', function () {
+    $this->artisan('make:config', ['name' => 'app'])->assertSuccessful();
+
+    $path = $this->tempDir.'/config/app.php';
+    expect($path)->toBeFile();
+
+    $content = $this->files->get($path);
+    expect($content)->toContain('app Configuration');
+});
+
+// ─── make:routes ─────────────────────────────────────────────
+
+test('make:routes generates routes file', function () {
+    $this->artisan('make:routes', ['name' => 'web'])->assertSuccessful();
+
+    $path = $this->tempDir.'/routes/web.php';
+    expect($path)->toBeFile();
+
+    $content = $this->files->get($path);
+    expect($content)->toContain('web Routes');
+});

@@ -9,6 +9,7 @@ use Adereksisusanto\Laravel\Artisan\Commands\MakeArtisanCommand;
 use Adereksisusanto\Laravel\Artisan\Commands\MakeCastCommand;
 use Adereksisusanto\Laravel\Artisan\Commands\MakeChannelCommand;
 use Adereksisusanto\Laravel\Artisan\Commands\MakeComponentCommand;
+use Adereksisusanto\Laravel\Artisan\Commands\MakeConfigCommand;
 use Adereksisusanto\Laravel\Artisan\Commands\MakeControllerCommand;
 use Adereksisusanto\Laravel\Artisan\Commands\MakeDTOCommand;
 use Adereksisusanto\Laravel\Artisan\Commands\MakeEnumCommand;
@@ -18,6 +19,7 @@ use Adereksisusanto\Laravel\Artisan\Commands\MakeFacadeCommand;
 use Adereksisusanto\Laravel\Artisan\Commands\MakeFactoryCommand;
 use Adereksisusanto\Laravel\Artisan\Commands\MakeInterfaceCommand;
 use Adereksisusanto\Laravel\Artisan\Commands\MakeJobCommand;
+use Adereksisusanto\Laravel\Artisan\Commands\MakeLanguageCommand;
 use Adereksisusanto\Laravel\Artisan\Commands\MakeListenerCommand;
 use Adereksisusanto\Laravel\Artisan\Commands\MakeMailCommand;
 use Adereksisusanto\Laravel\Artisan\Commands\MakeMiddlewareCommand;
@@ -31,6 +33,7 @@ use Adereksisusanto\Laravel\Artisan\Commands\MakeProviderCommand;
 use Adereksisusanto\Laravel\Artisan\Commands\MakeRepositoryCommand;
 use Adereksisusanto\Laravel\Artisan\Commands\MakeRequestCommand;
 use Adereksisusanto\Laravel\Artisan\Commands\MakeResourceCommand;
+use Adereksisusanto\Laravel\Artisan\Commands\MakeRoutesCommand;
 use Adereksisusanto\Laravel\Artisan\Commands\MakeRuleCommand;
 use Adereksisusanto\Laravel\Artisan\Commands\MakeScopeCommand;
 use Adereksisusanto\Laravel\Artisan\Commands\MakeSeederCommand;
@@ -69,6 +72,7 @@ class TestServiceProvider extends ServiceProvider
                 MakeCastCommand::class,
                 MakeChannelCommand::class,
                 MakeComponentCommand::class,
+                MakeConfigCommand::class,
                 MakeControllerCommand::class,
                 MakeDTOCommand::class,
                 MakeEnumCommand::class,
@@ -77,6 +81,7 @@ class TestServiceProvider extends ServiceProvider
                 MakeFacadeCommand::class,
                 MakeInterfaceCommand::class,
                 MakeJobCommand::class,
+                MakeLanguageCommand::class,
                 MakeListenerCommand::class,
                 MakeMailCommand::class,
                 MakeMiddlewareCommand::class,
@@ -90,6 +95,7 @@ class TestServiceProvider extends ServiceProvider
                 MakeFactoryCommand::class,
                 MakeRepositoryCommand::class,
                 MakeRequestCommand::class,
+                MakeRoutesCommand::class,
                 MakeResourceCommand::class,
                 MakeRuleCommand::class,
                 MakeScopeCommand::class,

@@ -1,0 +1,16 @@
+<?php
+
+return [
+
+    /*
+    |--------------------------------------------------------------------------
+    | {{ class }} Language Lines
+    |--------------------------------------------------------------------------
+    |
+    | The following language lines are used by the {{ classLower }} system.
+    |
+    */
+
+    'welcome' => 'Welcome',
+
+];

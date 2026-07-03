@@ -477,6 +477,36 @@ test('repository stub generates repository', function () {
     expect($content)->toContain('class UserRepository');
 });
 
+test('config stub generates valid PHP config', function () {
+    $this->artisan('make:config', ['name' => 'app'])->assertSuccessful();
+
+    $path = $this->tempDir.'/config/app.php';
+    $content = $this->files->get($path);
+
+    expect($content)->toContain('return [');
+    expect($content)->toContain("'option' => 'value'");
+});
+
+test('lang stub generates valid PHP language file', function () {
+    $this->artisan('make:lang', ['name' => 'messages'])->assertSuccessful();
+
+    $path = $this->tempDir.'/lang/en/messages.php';
+    $content = $this->files->get($path);
+
+    expect($content)->toContain('return [');
+    expect($content)->toContain("'welcome' => 'Welcome'");
+});
+
+test('routes stub generates valid PHP routes file', function () {
+    $this->artisan('make:routes', ['name' => 'web'])->assertSuccessful();
+
+    $path = $this->tempDir.'/routes/web.php';
+    $content = $this->files->get($path);
+
+    expect($content)->toContain('use Illuminate\\Support\\Facades\\Route;');
+    expect($content)->toContain("Route::get('/'");
+});
+
 test('service stub generates service', function () {
     $this->artisan('make:service', ['name' => 'PaymentService'])
         ->assertSuccessful();
@@ -494,6 +524,8 @@ test('all generated files are valid PHP', function () {
         ['make:channel', 'TestChannel'],
         ['make:command', 'TestCommand'],
         ['make:component', 'TestComponent'],
+        ['make:config', 'TestConfig'],
+        ['make:controller', 'TestController'],
         ['make:dto', 'TestDTO'],
         ['make:enum', 'TestEnum'],
         ['make:event', 'TestEvent'],
@@ -501,6 +533,7 @@ test('all generated files are valid PHP', function () {
         ['make:facade', 'TestFacade'],
         ['make:interface', 'TestInterface'],
         ['make:job', 'TestJob'],
+        ['make:lang', 'TestLang'],
         ['make:listener', 'TestListener'],
         ['make:mail', 'TestMail'],
         ['make:middleware', 'TestMiddleware'],
@@ -515,6 +548,7 @@ test('all generated files are valid PHP', function () {
         ['make:repository', 'TestRepo'],
         ['make:request', 'TestRequest'],
         ['make:resource', 'TestResource'],
+        ['make:routes', 'TestRoutes'],
         ['make:rule', 'TestRule'],
         ['make:scope', 'TestScope'],
         ['make:seeder', 'TestSeeder'],
@@ -530,9 +564,20 @@ test('all generated files are valid PHP', function () {
     $this->app->useDatabasePath($this->tempDir.'/database');
 
     $files = $this->files->allFiles($this->tempDir.'/app');
+
     foreach ($this->files->files($this->tempDir.'/database/migrations') as $file) {
         $files[] = $file;
     }
+
+    foreach (['config', 'routes', 'lang/en'] as $dir) {
+        $path = $this->tempDir.'/'.$dir;
+        if ($this->files->exists($path)) {
+            foreach ($this->files->allFiles($path) as $file) {
+                $files[] = $file;
+            }
+        }
+    }
+
     foreach ($files as $file) {
         $result = shell_exec('php -l '.escapeshellarg($file->getPathname()).' 2>&1');
         expect($result)->toContain('No syntax errors');

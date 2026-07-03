@@ -89,7 +89,10 @@ You can override the default output directory for any generator via `composer.js
                 "exception": "Exceptions",
                 "cast": "Casts",
                 "command": "Commands",
-                "channel": "Broadcasting"
+                "channel": "Broadcasting",
+                "config": "config",
+                "lang": "lang",
+                "routes": "routes"
             }
         }
     }
@@ -107,6 +110,7 @@ Only set the keys you want to customize; others will use the default directory.
 | `make:channel <name>` | Generate a broadcast channel class |
 | `make:command <name>` | Generate a new artisan command |
 | `make:component <name>` | Generate a view component class |
+| `make:config <name>` | Generate a configuration file |
 | `make:controller <name>` | Generate a controller class |
 | `make:dto <name>` | Generate a DTO class |
 | `make:enum <name>` | Generate an enum class |
@@ -116,6 +120,7 @@ Only set the keys you want to customize; others will use the default directory.
 | `make:interface <name>` | Generate an interface |
 | `make:factory <name>` | Generate a model factory class |
 | `make:job <name>` | Generate a queued job class |
+| `make:lang <name>` | Generate a language file |
 | `make:listener <name>` | Generate an event listener class |
 | `make:mail <name>` | Generate a mailable class |
 | `make:middleware <name>` | Generate a middleware class |
@@ -129,6 +134,7 @@ Only set the keys you want to customize; others will use the default directory.
 | `make:repository <name>` | Generate a repository class |
 | `make:request <name>` | Generate a form request class |
 | `make:resource <name>` | Generate an API resource class |
+| `make:routes <name>` | Generate a routes file |
 | `make:rule <name>` | Generate a validation rule class |
 | `make:scope <name>` | Generate a query scope class |
 | `make:seeder <name>` | Generate a seeder class |
@@ -149,6 +155,7 @@ Every `make:*` command supports `--force` to overwrite existing files.
 | `make:channel` | `--force` |
 | `make:command` | `--command=` (terminal command name), `--force` |
 | `make:component` | `--force` |
+| `make:config` | `--force` |
 | `make:controller` | `-i, --invokable`, `-m, --model=`, `-r, --resource`, `--api`, `-R, --requests`, `--force` |
 | `make:dto` | `--force` |
 | `make:enum` | `--force` |
@@ -158,6 +165,7 @@ Every `make:*` command supports `--force` to overwrite existing files.
 | `make:factory` | `-m, --model=`, `--force` |
 | `make:interface` | `--force` |
 | `make:job` | `--sync` (synchronous), `--force` |
+| `make:lang` | `--locale=` (default: en), `--force` |
 | `make:listener` | `-e, --event=`, `--queued`, `--force` |
 | `make:mail` | `--markdown=`, `--force` |
 | `make:middleware` | `--force` |
@@ -171,6 +179,7 @@ Every `make:*` command supports `--force` to overwrite existing files.
 | `make:repository` | `--force` |
 | `make:request` | `--force` |
 | `make:resource` | `-m, --model=`, `-c, --collection`, `--force` |
+| `make:routes` | `--force` |
 | `make:rule` | `--implicit`, `--force` |
 | `make:scope` | `--force` |
 | `make:seeder` | `--force` |
