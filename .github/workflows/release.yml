@@ -24,7 +24,7 @@ jobs:
           tools: composer:v2
 
       - name: Install dependencies
-        run: composer install --prefer-stable --no-interaction
+        run: composer install --no-interaction
 
       - name: Run quality checks
         run: composer check
