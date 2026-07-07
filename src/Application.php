@@ -110,7 +110,7 @@ class Application extends SymfonyApplication
     {
         $reflection = new \ReflectionClass(\Illuminate\Console\Application::class);
         $property = $reflection->getProperty('bootstrappers');
-        $property->setValue([]);
+        $property->setValue(null, []);
     }
 
     protected function fireStartingBootstrappers(): void
