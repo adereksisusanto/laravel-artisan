@@ -69,6 +69,21 @@ abstract class BaseGeneratorCommand extends Command
         return $this->composerConfig;
     }
 
+    protected function getClassName(string $name): string
+    {
+        $parts = explode('/', str_replace('\\', '/', $name));
+
+        return end($parts);
+    }
+
+    protected function getSubNamespace(string $name): string
+    {
+        $parts = explode('/', str_replace('\\', '/', $name));
+        array_pop($parts);
+
+        return implode('\\', $parts);
+    }
+
     protected function getNamespace(): string
     {
         $composer = $this->getComposerConfig();
@@ -101,14 +116,18 @@ abstract class BaseGeneratorCommand extends Command
     {
         $stub = $this->files()->get($this->getStubPath());
 
+        $className = $this->getClassName($name);
+        $subNamespace = $this->getSubNamespace($name);
+        $namespace = $this->getNamespace().($subNamespace ? '\\'.$subNamespace : '');
+
         $replace = array_merge([
-            '{{ namespace }}' => $this->getNamespace(),
-            '{{ class }}' => $name,
-            '{{ classLower }}' => lcfirst($name),
-            '{{ classSnake }}' => Str::snake($name),
-            '{{ classKebab }}' => Str::kebab($name),
-            '{{ classPlural }}' => Str::plural($name),
-            '{{ classPluralLower }}' => lcfirst(Str::plural($name)),
+            '{{ namespace }}' => $namespace,
+            '{{ class }}' => $className,
+            '{{ classLower }}' => lcfirst($className),
+            '{{ classSnake }}' => Str::snake($className),
+            '{{ classKebab }}' => Str::kebab($className),
+            '{{ classPlural }}' => Str::plural($className),
+            '{{ classPluralLower }}' => lcfirst(Str::plural($className)),
         ], $this->getReplacements($name));
 
         return str_replace(array_keys($replace), array_values($replace), $stub);

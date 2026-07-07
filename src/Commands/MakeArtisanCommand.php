@@ -29,7 +29,11 @@ class MakeArtisanCommand extends BaseGeneratorCommand
     {
         $stub = $this->files()->get($this->getStubPath());
 
-        $command = $this->option('command') ?: 'app:'.Str::kebab($name);
+        $className = $this->getClassName($name);
+        $subNamespace = $this->getSubNamespace($name);
+        $namespace = $this->getNamespace().($subNamespace ? '\\'.$subNamespace : '');
+
+        $command = $this->option('command') ?: 'app:'.Str::kebab($className);
         $replace = [
             '{{ commandSignature }}' => $command,
         ];
@@ -37,13 +41,13 @@ class MakeArtisanCommand extends BaseGeneratorCommand
         $stub = str_replace(array_keys($replace), array_values($replace), $stub);
 
         $classReplace = [
-            '{{ namespace }}' => $this->getNamespace(),
-            '{{ class }}' => $name,
-            '{{ classLower }}' => lcfirst($name),
-            '{{ classSnake }}' => Str::snake($name),
-            '{{ classKebab }}' => Str::kebab($name),
-            '{{ classPlural }}' => Str::plural($name),
-            '{{ classPluralLower }}' => lcfirst(Str::plural($name)),
+            '{{ namespace }}' => $namespace,
+            '{{ class }}' => $className,
+            '{{ classLower }}' => lcfirst($className),
+            '{{ classSnake }}' => Str::snake($className),
+            '{{ classKebab }}' => Str::kebab($className),
+            '{{ classPlural }}' => Str::plural($className),
+            '{{ classPluralLower }}' => lcfirst(Str::plural($className)),
         ];
 
         return str_replace(array_keys($classReplace), array_values($classReplace), $stub);

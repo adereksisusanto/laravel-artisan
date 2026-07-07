@@ -21,9 +21,15 @@ composer require adereksisusanto/laravel-artisan --dev
 
 Setelah instalasi, titik masuk `bin/artisan` tersedia di direktori `vendor/bin` proyek Anda.
 
-## Mulai Cepat
+### Setup file artisan
 
-Buat file `artisan` di root proyek Anda (atau gunakan `vendor/bin/artisan` langsung):
+Salin binary artisan ke root proyek Anda:
+
+```bash
+cp vendor/bin/artisan artisan
+```
+
+Atau buat file `artisan` secara manual di root proyek Anda:
 
 ```php
 #!/usr/bin/env php
@@ -42,6 +48,20 @@ $kernel->terminate($status);
 ```
 
 Kemudian jalankan:
+
+```bash
+php artisan list
+```
+
+Atau gunakan langsung tanpa menyalin:
+
+```bash
+php vendor/bin/artisan list
+```
+
+## Mulai Cepat
+
+Setelah setup file `artisan`, jalankan:
 
 ```bash
 php artisan list

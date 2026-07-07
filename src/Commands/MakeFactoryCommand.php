@@ -41,9 +41,11 @@ class MakeFactoryCommand extends BaseGeneratorCommand
         $model = $this->option('model') ?: $name;
         $modelNamespace = $this->resolveModelNamespace($model);
 
+        $modelClassName = $this->getClassName($model);
+
         $replace = [
             '{{ modelNamespace }}' => $modelNamespace,
-            '{{ model }}' => $model,
+            '{{ model }}' => $modelClassName,
         ];
 
         return str_replace(array_keys($replace), array_values($replace), $stub);
@@ -64,6 +66,9 @@ class MakeFactoryCommand extends BaseGeneratorCommand
         $config = $composer['extra']['laravel-artisan']['paths']['model'] ?? null;
         $modelDir = $config ?: 'Models';
 
-        return '\\'.$root.'\\'.$modelDir.'\\'.$model;
+        $modelClassName = $this->getClassName($model);
+        $subNamespace = $this->getSubNamespace($model);
+
+        return '\\'.$root.'\\'.$modelDir.($subNamespace ? '\\'.$subNamespace : '').'\\'.$modelClassName;
     }
 }

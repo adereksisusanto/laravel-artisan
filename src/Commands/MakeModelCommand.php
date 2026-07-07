@@ -28,6 +28,7 @@ class MakeModelCommand extends BaseGeneratorCommand
     public function handle(): int
     {
         $name = $this->argument('name');
+        $className = $this->getClassName($name);
         $force = $this->option('force');
         $all = $this->option('all');
 
@@ -35,7 +36,7 @@ class MakeModelCommand extends BaseGeneratorCommand
             return self::FAILURE;
         }
 
-        $table = Str::snake(Str::pluralStudly($name));
+        $table = Str::snake(Str::pluralStudly($className));
 
         if ($all || $this->option('migration')) {
             $migrationName = 'create_'.$table.'_table';
