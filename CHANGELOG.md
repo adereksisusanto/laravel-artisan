@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-artisan` will be documented in this file.
 
+## v1.0.8 - 2026-07-07
+
+## What's Changed
+
+- fix: handle path separator in make commands (Rest/Public/Name)
+
 ## v1.0.7 - 2026-07-07
 
 ## What's Changed
