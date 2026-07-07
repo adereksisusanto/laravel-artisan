@@ -91,6 +91,7 @@ class Kernel
         $input = $input ?? new ArgvInput;
         $output = $output ?? new ConsoleOutput;
 
+        $this->app->boot();
         $this->bootstrap();
 
         return $this->app->run($input, $output);

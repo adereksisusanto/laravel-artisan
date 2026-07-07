@@ -1,6 +1,6 @@
 # Laravel Artisan
 
-[![Tests](https://img.shields.io/badge/tests-83%20passing-brightgreen?style=flat-square)](https://github.com/adereksisusanto/laravel-artisan)
+[![Tests](https://img.shields.io/badge/tests-124%20passing-brightgreen?style=flat-square)](https://github.com/adereksisusanto/laravel-artisan)
 [![PHPStan](https://img.shields.io/badge/PHPStan-level%205-brightgreen?style=flat-square)](https://github.com/adereksisusanto/laravel-artisan)
 [![Packagist Version](https://img.shields.io/packagist/v/adereksisusanto/laravel-artisan?style=flat-square)](https://packagist.org/packages/adereksisusanto/laravel-artisan)
 [![Packagist Downloads](https://img.shields.io/packagist/dt/adereksisusanto/laravel-artisan?style=flat-square)](https://packagist.org/packages/adereksisusanto/laravel-artisan)
@@ -205,13 +205,41 @@ php artisan stubs:publish --force
 
 ## Registering Custom Commands
 
+Register individual or multiple commands directly to the kernel:
+
 ```php
 use Adereksisusanto\Laravel\Artisan\Kernel;
 
 $kernel = new Kernel($app);
+
 $kernel->registerCommand(\App\Commands\MyCommand::class);
+$kernel->registerCommands([
+    \App\Commands\FooCommand::class,
+    \App\Commands\BarCommand::class,
+]);
+
 $kernel->handle();
 ```
+
+### Registering Service Providers
+
+For packages that register commands or bindings via a service provider:
+
+```php
+// Single provider
+$app->registerServiceProvider(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
+
+// Multiple providers
+$app->registerServiceProviders([
+    \Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+    \App\Providers\SomeServiceProvider::class,
+]);
+
+$kernel = new Kernel($app);
+$status = $kernel->handle();
+```
+
+
 
 ## Build PHAR
 

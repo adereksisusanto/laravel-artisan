@@ -61,18 +61,67 @@ class Application extends SymfonyApplication
         $this->serviceProviders[] = $provider;
     }
 
+    public function registerServiceProviders(array $providers): void
+    {
+        $this->serviceProviders = array_merge($this->serviceProviders, $providers);
+    }
+
     public function boot(): void
     {
         if ($this->booted) {
             return;
         }
 
+        $this->clearBootstrappers();
+
         foreach ($this->serviceProviders as $provider) {
             $instance = new $provider($this->container);
             $instance->register();
         }
 
+        $this->fireStartingBootstrappers();
+
+        foreach ($this->serviceProviders as $provider) {
+            $instance = new $provider($this->container);
+            if (method_exists($instance, 'boot')) {
+                $instance->boot();
+            }
+        }
+
         $this->booted = true;
+    }
+
+    public function resolveCommands(array|string $commands): static
+    {
+        $commands = is_array($commands) ? $commands : func_get_args();
+
+        foreach ($commands as $command) {
+            if ($command instanceof Command) {
+                $this->add($command);
+            } else {
+                $this->add($this->container->make($command));
+            }
+        }
+
+        return $this;
+    }
+
+    protected function clearBootstrappers(): void
+    {
+        $reflection = new \ReflectionClass(\Illuminate\Console\Application::class);
+        $property = $reflection->getProperty('bootstrappers');
+        $property->setValue([]);
+    }
+
+    protected function fireStartingBootstrappers(): void
+    {
+        $reflection = new \ReflectionClass(\Illuminate\Console\Application::class);
+        $property = $reflection->getProperty('bootstrappers');
+        $bootstrappers = $property->getValue();
+
+        foreach ($bootstrappers as $bootstrapper) {
+            $bootstrapper($this);
+        }
     }
 
     public function getContainer(): LaravelApplication
