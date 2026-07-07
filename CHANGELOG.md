@@ -2,6 +2,13 @@
 
 All notable changes to `laravel-artisan` will be documented in this file.
 
+## v1.0.7 - 2026-07-07
+
+## What's Changed
+
+- fix: resolveCommands and boot improvements for service provider support
+- chore: update release workflow and CHANGELOG formatting
+
 ## v1.0.6 - 2026-07-07
 
 - update README and code to support registering multiple service providers and commands
