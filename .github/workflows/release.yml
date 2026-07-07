@@ -16,12 +16,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      # persist-credentials: true so git-auto-commit-action below can push
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0  # zizmor: ignore[artipacked]
         with:
           fetch-depth: 0
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
         with:
           php-version: 8.3
           tools: composer:v2
@@ -33,23 +34,44 @@ jobs:
         run: composer check
 
       - name: Generate release body
-        id: release_body
         run: |
-          body="## What's Changed\n\n"
+          printf "## What's Changed\n\n" > /tmp/release-body.md
           prev=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || git rev-list --max-parents=0 HEAD)
-          while IFS= read -r line; do
-            body+="- ${line}\n"
-          done < <(git log "$prev"..HEAD --pretty=format:"%s" --no-merges)
-          echo "body<<EOF" >> $GITHUB_OUTPUT
-          printf "%b" "$body" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+          git log "$prev"..HEAD --pretty=format:"- %s" --no-merges >> /tmp/release-body.md
+          printf "\n" >> /tmp/release-body.md
+
+      - name: Update CHANGELOG.md
+        run: |
+          TAG="$VERSION"
+          DATE=$(date -u +%Y-%m-%d)
+          printf "## %s - %s\n\n" "$TAG" "$DATE" > /tmp/changelog-entry.md
+          cat /tmp/release-body.md >> /tmp/changelog-entry.md
+
+          if [ -f CHANGELOG.md ]; then
+            HEADER=$(head -3 CHANGELOG.md)
+            TAIL=$(tail -n +4 CHANGELOG.md)
+            echo "$HEADER" > CHANGELOG.md
+            echo "" >> CHANGELOG.md
+            cat /tmp/changelog-entry.md >> CHANGELOG.md
+            echo "$TAIL" >> CHANGELOG.md
+          else
+            printf "# Changelog\n\n" > CHANGELOG.md
+            cat /tmp/changelog-entry.md >> CHANGELOG.md
+          fi
+        env:
+          VERSION: ${{ inputs.version }}
+
+      - uses: stefanzweifel/git-auto-commit-action@4a55954c782fc1ea30b9056cd3e7a2b40ca8887d # v7.2.0
+        with:
+          commit_message: "chore: update CHANGELOG.md for ${{ inputs.version }}"
 
       - name: Create Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ inputs.version }}
-          name: ${{ inputs.version }}
-          body: ${{ steps.release_body.outputs.body }}
-          generate_release_notes: true
-          draft: false
-          prerelease: false
+        run: |
+          gh release create "$VERSION" \
+            --title "$VERSION" \
+            --notes-file /tmp/release-body.md \
+            --generate-notes \
+            --latest
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          VERSION: ${{ inputs.version }}
